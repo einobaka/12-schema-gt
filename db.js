@@ -1,1 +1,1 @@
-var mysql = require("mysql");
+const mysql = require("mysql");
