@@ -1,5 +1,23 @@
 const inquirer = require('inquirer');
 const database = require('./db/db');
+const dbmethod = require('./utils/dbcontrol');
+
+// addDept();
+// addRole();
+// addEmp();
+// /////////////////////
+// viewDept();
+// viewRole();
+// viewEmployee();
+// viewEmpByMang(); //bonus
+// /////////////////////
+// updEmpRoles();
+// updEmpMang(); //bonus
+// /////////////////////
+// delDept(); //bonus
+// delRole(); //bonus
+// delEmp(); //bonus
+
 
 database.connect(function (err) {
     if (err) throw err;
@@ -40,43 +58,43 @@ function startDB() {
 
         switch (user.choice) {
             case "Add Department":
-                addDept();
+                dbmethod.addDept();
                 break;
             case "Add Role":
-                addRole();
+                dbmethod.addRole();
                 break;
             case "Add Employee":
-                addEmp();
+                dbmethod.addEmp();
                 break;
             /////////////////////
             case "View Department":
-                viewDept();
+                dbmethod.viewDept();
                 break;
             case "View Role":
-                viewRole();
+                dbmethod.viewRole();
                 break;
             case "View Employee":
-                viewEmployee();
+                dbmethod.viewEmployee();
                 break;
             case "View Employee by Manager":
-                viewEmpByMang(); //bonus
+                dbmethod.viewEmpByMang(); //bonus
                 break;
             /////////////////////
             case "Update Employee Roles":
-                updEmpRoles();
+                dbmethod.updEmpRoles();
                 break;
             case "Update Employee Managers":
-                updEmpMang(); //bonus
+                dbmethod.updEmpMang(); //bonus
                 break;
             /////////////////////
             case "Delete Department":
-                delDept(); //bonus
+                dbmethod.delDept(); //bonus
                 break;
             case "Delete Role":
-                delRole(); //bonus
+                dbmethod.delRole(); //bonus
                 break;
             case "Delete Employee":
-                delEmp(); //bonus
+                dbmethod.delEmp(); //bonus
                 break;
         }
 
