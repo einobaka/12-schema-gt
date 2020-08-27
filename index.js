@@ -1,9 +1,8 @@
 const inquirer = require('inquirer');
 const database = require('./db/db');
 const dbmethod = require('./utils/dbcontrol');
+// const addEmp = require('./utils/dbcontrol');
 
-// addDept();
-// addRole();
 // addEmp();
 // /////////////////////
 // viewDept();
@@ -36,8 +35,6 @@ function startDB() {
             name: "choice",
             message: "What would you like to do?",
             choices: [
-                "Add Department",
-                "Add Role",
                 "Add Employee",
                 /////////////////////
                 "View Department",
@@ -57,12 +54,6 @@ function startDB() {
         console.log(user);
 
         switch (user.choice) {
-            case "Add Department":
-                dbmethod.addDept();
-                break;
-            case "Add Role":
-                dbmethod.addRole();
-                break;
             case "Add Employee":
                 dbmethod.addEmp();
                 break;
