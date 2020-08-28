@@ -1,43 +1,16 @@
 const inquirer = require('inquirer');
-const database = require('../db/db');
 
 class DbMethod {
 
-    addEmp() {
+    constructor(roles, managers, department) {
+        this.roles = roles;
+        this.managers  = managers;
+        this.department = department;
+    }
 
-        // inquirer.prompt(
-        //     {
-        //         type: 'list',
-        //         name: 'management',
-        //         message: 'Is this employee a manager?',
-        //         choices: ['Yes', 'No']
-        //     }
-        // ).then((isManager) => {
-        //     if (isManager !== 'Yes') { };
-        // });
-        let query = "SELECT * FROM employee WHERE manager_id > 0"
-        database.query(query, (err, res) => {
-            if (err) throw (err);
-            // console.log(res)
-            let list = [];
-            res.forEach(manager => {
-                // console.log(manager.first_name, manager.last_name)
-                let manName = `${manager.first_name} ${manager.last_name}`
-                list.push(manName);
-            });       
-            console.log(list)
-        })
-
-        let roles = [
-            'Advisor',
-            'Technician',
-            'Office clerk',
-            '--------',
-            "Manager",
-        ] // put in DB
-        let department = ['Sales', 'Fixed Operations', 'Accounting']
-        let managers = ['None', 'Joe Regal', 'Nate Avery', 'Mike Michaels'] // put in DB
-
+    addEmp(company) {
+       
+        // console.log(company);
         let employee = [
             {
                 type: "input",
@@ -52,24 +25,24 @@ class DbMethod {
             {
                 type: "list",
                 name: "role",
-                message: "Please select the employee's role",
-                choices: roles
+                message: "Please select the employee's role.",
+                choices: company.roles
             },
             {
                 type: "list",
                 name: "manager",
-                message: "Please select the employee's manager",
-                choices: managers
+                message: "Please select the employee's manager.",
+                choices: company.managers
             },
             {
                 type: "list",
                 name: "department",
-                message: "Please select the employee's department",
-                choices: department
+                message: "Please select the employee's department.",
+                choices: company.dept
             },
         ];
-        // inquirer.prompt(employee)
-        //     .then((employee) => {
+        inquirer.prompt(employee)
+            .then((employee) => {
 
         //         let insert = 'INSERT INTO employee SET ?';
         //         let empValues = {
@@ -99,7 +72,7 @@ class DbMethod {
         //             if (err) throw (err);
         //             console.log('dept inserted');
         //         })
-        //     });
+            });
     };
     // updateEMP() {
     //     inquirer.prompt(
