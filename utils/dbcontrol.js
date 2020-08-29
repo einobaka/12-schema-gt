@@ -1,6 +1,5 @@
 const inquirer = require('inquirer');
 const database = require('../db/db');
-const { addListener } = require('nodemon');
 
 class DbMethod {
 
@@ -12,7 +11,7 @@ class DbMethod {
 
     addEmp(company) {
 
-        // console.log(company);
+        console.log(company);
 
         let employee = [
             {
@@ -33,99 +32,66 @@ class DbMethod {
             },
             {
                 type: "list",
-                name: "manager",
-                message: "Please select the employee's manager.",
-                choices: company.managers
-            },
-            {
-                type: "list",
                 name: "department",
                 message: "Please select the employee's department.",
                 choices: company.dept
             },
+            {
+                type: "list",
+                name: "manager",
+                message: "Please select the employee's manager.",
+                choices: company.managers
+            },
         ];
+
         inquirer.prompt(employee)
             .then((employee) => {
-
                 // console.log(employee)
-                // console.log(company.managers.id);
-                database.query(`SELECT id FROM role WHERE title = '${employee.role}'`, (err, res) => {
-                    if (err) throw (err);
-                    // console.log(res[0].id)
-                    if (res[0].id < 200) {
-                        let insEmp = 'INSERT INTO employee SET ?'
-                        database.query(insEmp,
-                            {
-                                first_name: employee.first_name,
-                                last_name: employee.last_name,
-                                role_id: res[0].id
-                            },
-                            (err, res) => {
-                                if (err) throw (err);
-                                console.log(res);
-                            });
-                    }
-                    else {
-                        let insEmp = 'INSERT INTO employee SET ?'
-                        database.query(insEmp,
-                            {
-                                first_name: employee.first_name,
-                                last_name: employee.last_name,
-                                manager_id: res[0].id
-                            },
-                            (err, res) => {
-                                if (err) throw (err);
-                                console.log(res);
-                            });
-                    }
-                })
 
+                let manager = employee.manager.split(' ');
+                let managerID = '';
 
-                // insEmp += '(SELECT id from role where title = employee.role)'
-                // let empRole = `(SELECT id from role where title = ${employee.role})`
-                // let empRole = '(SELECT id from role where title = ' + employee.role + ')'
+                database.query(
+                    `SELECT id FROM employee WHERE first_name = '${manager[0]}' AND last_name = '${manager[1]}'`, (err, res) => {
+                        if (err) throw (err);
+                        // console.log(res)
+                        return managerID = res[0].id;
+                    });
 
-                // database.query(
-                //     role,
-                //     (err, res) => {
-                //         if (err) throw (err);
-                //         console.log(res);
-                //     })
-
-                // let empValues = {
-                //     first_name: employee.first_name,
-                //     last_name: employee.last_name,
-                //     role_id: employee.
-                // }
-
-                //         let insert = 'INSERT INTO employee SET ?';
-                //         let empValues = {
-                //             first_name: employee.first_name,
-                //             last_name: employee.last_name,
-                //         };
-                //         database.query(insert, empValues, (err, res) => {
-                //             if (err) throw (err);
-                //             console.log('names inserted');
-                //         })
-                //         //////
-                //         let insertRole = "INSERT INTO role SET ?";
-                //         let empRole = {
-                //             title: employee.role,
-                //             // salary: employee.salary,
-                //         };
-                //         database.query(insertRole, empRole, (err, res) => {
-                //             if (err) throw (err);
-                //             console.log('title inserted');
-                //         })
-                //         //////
-                //         let insertDept = "INSERT INTO department SET ?"
-                //         let empDept = {
-                //             name: employee.department,
-                //         }
-                //         database.query(insertDept, empDept, (err, res) => {
-                //             if (err) throw (err);
-                //             console.log('dept inserted');
-                //         })
+                database.query(
+                    `SELECT id FROM role WHERE title = '${employee.role}'`, (err, res) => {
+                        if (err) throw (err);
+                        // console.log(res[0].id)
+                        if (res[0].id < 200) {
+                            // console.log(res)
+                            let insEmp = 'INSERT INTO employee SET ?'
+                            database.query(
+                                insEmp,
+                                {
+                                    first_name: employee.first_name,
+                                    last_name: employee.last_name,
+                                    role_id: res[0].id,
+                                    manager_id: managerID
+                                },
+                                (err, res) => {
+                                    if (err) throw (err);
+                                    console.log(res);
+                                });
+                        }
+                        else {
+                            let insEmp = 'INSERT INTO employee SET ?'
+                            database.query(insEmp,
+                                {
+                                    first_name: employee.first_name,
+                                    last_name: employee.last_name,
+                                    role_id: res[0].id,
+                                },
+                                (err, res) => {
+                                    if (err) throw (err);
+                                    console.log(res);
+                                });
+                        };
+                    });
             });
     };
     // updateEMP() {
