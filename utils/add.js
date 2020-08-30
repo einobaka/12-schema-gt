@@ -1,13 +1,14 @@
 const inquirer = require('inquirer');
 const database = require('../db/db');
+const startDB = require('../index/startDB');
 
 class DbMethod {
 
-    constructor(roles, managers, department) {
-        this.roles = roles;
-        this.managers = managers;
-        this.department = department;
-    }
+    // constructor(roles, managers, department) {
+    //     this.roles = roles;
+    //     this.managers = managers;
+    //     this.department = department;
+    // }
 
     addEmp(company) {
 
@@ -76,6 +77,7 @@ class DbMethod {
                                 (err, res) => {
                                     if (err) throw (err);
                                     console.log(res);
+                                    startDB();
                                 });
                         }
                         else {
@@ -89,6 +91,7 @@ class DbMethod {
                                 (err, res) => {
                                     if (err) throw (err);
                                     console.log(res);
+                                    startDB();
                                 });
                         };
                     });

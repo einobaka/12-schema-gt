@@ -1,7 +1,9 @@
 const inquirer = require('inquirer');
 const database = require('./db/db');
-const dbmethod = require('./utils/dbcontrol');
-const { department } = require('./utils/dbcontrol');
+const dbadd = require('./utils/add');
+const dbview = require('./utils/view');
+const dbdelete = require('./utils/delete');
+// const { department } = require('./utils/add');
 // const addEmp = require('./utils/dbcontrol');
 
 database.connect(function (err) {
@@ -22,33 +24,37 @@ function startDB() {
             message: "What would you like to do?",
             choices: [
                 "Add Employee",
-                /////////////////////
+                "================", //
                 "View Department",
                 "View Role",
                 "View Employee",
                 "View Employee by Manager", //bonus
-                /////////////////////
+                "================", //
                 "Update Employee Roles",
                 "Update Employee Managers", //bonus
-                /////////////////////
+                "================", //
                 "Delete Department",
                 "Delete Role",
-                "Delete Employee",
+                "Delete Employee",        
             ]
         },
     ).then((user) => {
-        console.log(user);
+        // console.log(user);
 
+        if (user.choice === "================") {
+            console.log('Please select the employee role.')
+            startDB();
+        }
+        
         switch (user.choice) {
-            case "Add Employee": // THIS WORKS DONT BREAK IT
+            case "Add Employee":
                 // dbmethod.addEmp();
                 let company = {
                     managers: [],
                     roles: [],
                     dept: [],
-                    // employees: []
                 }
-                let queryMan = "SELECT * FROM employee WHERE manager_id > 0"
+                let queryMan = "SELECT * FROM employee WHERE role_id > 199"
                 let queryRol = "SELECT * FROM role WHERE id > 0"
                 let queryDep = "SELECT * FROM department WHERE id > 0"
                 database.query(queryMan, (err, res) => {
@@ -86,9 +92,8 @@ function startDB() {
                 });
 
                 function view() {
-                    dbmethod.addEmp(company)
+                    dbadd.addEmp(company)
                 }
-
                 break;
             /////////////////////
             case "View Department":
@@ -124,3 +129,5 @@ function startDB() {
 
     })
 };
+
+module.exports = startDB;
