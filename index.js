@@ -2,6 +2,7 @@ const inquirer = require('inquirer');
 const database = require('./db/db');
 const add = require('./utils/add');
 const view = require('./utils/view');
+const update = require('./utils/update');
 const remove = require('./utils/delete');
 // const addEmp = require('./utils/dbcontrol');
 
@@ -95,25 +96,25 @@ function startDB() {
                             let deptName = `${department.name}`
                             dept.push(deptName);
                         })
-                        return company.dept = dept, view()
+                        return company.dept = dept, intoView()
                     });
 
-                    function view() {
+                    function intoView() {
                         add.employee(company)
                     }
                     break;
                 /////////////////////
                 case "View Department":
-                    dbmethod.viewDept();
+                    view.dept();
                     break;
                 case "View Role":
-                    dbmethod.viewRole();
+                    view.role();
                     break;
                 case "View Employee":
-                    dbmethod.viewEmployee();
+                    view.employee();
                     break;
                 case "View Employee by Manager":
-                    dbmethod.viewEmpByMang(); //bonus
+                    view.empByManager(); //bonus
                     break;
                 /////////////////////
                 case "Update Employee Roles":

@@ -4,12 +4,6 @@ const database = require('../db/db');
 
 class DBadd {
 
-    // constructor(roles, managers, department) {
-    //     this.roles = roles;
-    //     this.managers = managers;
-    //     this.department = department;
-    // }
-
     department() {
         inquirer.prompt(
             [{
@@ -100,8 +94,6 @@ class DBadd {
                                             console.log(res);
                                         })
                                 })
-
-
                             })
                     });
                 }
@@ -149,7 +141,6 @@ class DBadd {
 
                 let manager = employee.manager.split(' ');
                 let managerID = '';
-
                 database.query(
                     `SELECT id FROM employee WHERE first_name = '${manager[0]}' AND last_name = '${manager[1]}'`, (err, res) => {
                         if (err) throw (err);
@@ -195,36 +186,6 @@ class DBadd {
                     });
             });
     };
-    // updateEMP() {
-    //     inquirer.prompt(
-
-    //         {
-    //             type: "number",
-    //             name: "salary",
-    //             message: "Please enter the employee's salary.",
-    //         },
-    //     )
-    // }
-    // startdb();
 };
 
 module.exports = new DBadd;
-// module.exports = addEmp;
-
-
-    // addRole();
-    // addDept();
-
-    // addEmp();
-    // /////////////////////
-    // viewDept();
-    // viewRole();
-    // viewEmployee();
-    // viewEmpByMang(); //bonus
-    // /////////////////////
-    // updEmpRoles();
-    // updEmpMang(); //bonus
-    // /////////////////////
-    // delDept(); //bonus
-    // delRole(); //bonus
-    // delEmp(); //bonus
