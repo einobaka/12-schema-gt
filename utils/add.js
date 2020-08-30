@@ -1,8 +1,8 @@
 const inquirer = require('inquirer');
 const database = require('../db/db');
-const startDB = require('../index/startDB');
+// const startDB = require('../index');
 
-class DbMethod {
+class DBadd {
 
     // constructor(roles, managers, department) {
     //     this.roles = roles;
@@ -10,9 +10,107 @@ class DbMethod {
     //     this.department = department;
     // }
 
-    addEmp(company) {
+    department() {
+        inquirer.prompt(
+            [{
+                type: "input",
+                name: "department",
+                message: "Please enter the department name.",
+                validate: answer => {
+                    if (answer === "") {
+                        return "Department cannot be blank, please try again.";
+                    }
+                    return true;
+                }
+            }]
+        ).then((entered) => {
+            database.query('INSERT INTO department SET ?', { name: entered.department }, (err, res) => {
+                if (err) throw (err);
+                console.log(res);
+            })
+        })
+    };
 
-        console.log(company);
+    role() {
+        inquirer.prompt(
+            [{
+                type: "list",
+                name: "type",
+                message: "Is this a manager role?",
+                choices: ["Yes", "No"]
+            }]
+        )
+            .then((choice) => {
+                if (choice.type === "Yes") {
+
+
+                    database.query("SELECT * FROM department WHERE id > 0", function (err, res) {
+                        if (err) throw err;
+                        // console.log(res)
+
+                        const department = [];
+                        res.forEach(dept => {
+                            // console.log(dept)
+                            let deptName = dept.name;
+                            department.push(deptName);
+
+                        });
+                        inquirer.prompt([{
+                            type: "prompt",
+                            name: "title",
+                            message: "Please enter the manager role title.",
+                            validate: answer => {
+                                if (answer === "") {
+                                    return "Title cannot be blank.";
+                                }
+                                return true;
+                            }
+                        },
+                        {
+                            type: "prompt",
+                            name: "salary",
+                            message: "Please enter this role's salary.",
+                            validate: answer => {
+                                //regex number validation
+                                if (answer.match(/^[1-9]\d*$/)) {
+                                    return true;
+                                }
+                                return "Entry must be a numeric entry."
+                            }
+                        },
+                        {
+                            type: "list",
+                            name: "department",
+                            message: "Please enter this role's department",
+                            choices: department
+                        }])
+                            .then((newRole) => {
+                                // console.log(choice)
+                                database.query(`SELECT id FROM department WHERE  name = '${newRole.department}'`, (err, res) => {
+                                    // console.log(res[0].id)
+                                    // return role.department_ID = res[0].id
+                                    database.query(`INSERT INTO role SET ?`,
+                                        {
+                                            title: newRole.title,
+                                            salary: newRole.salary,
+                                            department_ID: res[0].id
+                                        },
+                                        (err, res) => {
+                                            if (err) throw err;
+                                            console.log(res);
+                                        })
+                                })
+
+
+                            })
+                    });
+                }
+            })
+    }
+
+    employee(company) {
+
+        // console.log(company);
 
         let employee = [
             {
@@ -77,7 +175,7 @@ class DbMethod {
                                 (err, res) => {
                                     if (err) throw (err);
                                     console.log(res);
-                                    startDB();
+                                    // return startDB();
                                 });
                         }
                         else {
@@ -91,7 +189,7 @@ class DbMethod {
                                 (err, res) => {
                                     if (err) throw (err);
                                     console.log(res);
-                                    startDB();
+                                    // return startDB();
                                 });
                         };
                     });
@@ -107,13 +205,16 @@ class DbMethod {
     //         },
     //     )
     // }
+    // startdb();
 };
 
-module.exports = new DbMethod;
+module.exports = new DBadd;
 // module.exports = addEmp;
 
 
     // addRole();
+    // addDept();
+
     // addEmp();
     // /////////////////////
     // viewDept();
