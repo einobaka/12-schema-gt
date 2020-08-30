@@ -36,23 +36,95 @@ class DBadd {
         )
             .then((choice) => {
                 if (choice.type === "Yes") {
-
-
-                    database.query("SELECT * FROM department WHERE id > 0", function (err, res) {
+                    database.query("SELECT * FROM department WHERE id > 0", (err, res) => {
                         if (err) throw err;
                         // console.log(res)
-
                         const department = [];
                         res.forEach(dept => {
                             // console.log(dept)
                             let deptName = dept.name;
                             department.push(deptName);
+                        });
+                        database.query('SELECT id FROM role ORDER BY id DESC', (err, res) => {
+                            // console.log(res[0].id)
+                            inquirer.prompt([
+                                {
 
+                                    type: "number",
+                                    name: "id",
+                                    message: `Please enter the manager role ID. Must be greater than ${res[0].id}`,
+                                    validate: answer => {
+                                        if (answer === "") {
+                                            return "Number cannot be blank.";
+                                        }
+                                        return true;
+                                    }
+                                },
+                                {
+
+                                    type: "prompt",
+                                    name: "title",
+                                    message: "Please enter the manager role title.",
+                                    validate: answer => {
+                                        if (answer === "") {
+                                            return "Title cannot be blank.";
+                                        }
+                                        return true;
+                                    }
+                                },
+                                {
+                                    type: "prompt",
+                                    name: "salary",
+                                    message: "Please enter this role's salary.",
+                                    validate: answer => {
+                                        //regex number validation
+                                        if (answer.match(/^[1-9]\d*$/)) {
+                                            return true;
+                                        }
+                                        return "Entry must be a numeric entry."
+                                    }
+                                },
+                                {
+                                    type: "list",
+                                    name: "department",
+                                    message: "Please enter this role's department",
+                                    choices: department
+                                }])
+                                .then((newRole) => {
+                                    // console.log(choice)
+                                    database.query(`SELECT id FROM department WHERE  name = '${newRole.department}'`, (err, res) => {
+                                        // console.log(res[0].id)
+                                        // return role.department_ID = res[0].id
+                                        database.query(`INSERT INTO role SET ?`,
+                                            {
+                                                id: newRole.id,
+                                                title: newRole.title,
+                                                salary: newRole.salary,
+                                                department_ID: res[0].id
+                                            },
+                                            (err, res) => {
+                                                if (err) throw err;
+                                                console.log(res);
+                                            })
+                                    })
+                                })
+                        })
+                    });
+                }
+                else {
+                    database.query("SELECT * FROM department WHERE id > 0", function (err, res) {
+                        if (err) throw err;
+                        // console.log(res)
+                        const department = [];
+                        res.forEach(dept => {
+                            // console.log(dept)
+                            let deptName = dept.name;
+                            department.push(deptName);
                         });
                         inquirer.prompt([{
                             type: "prompt",
                             name: "title",
-                            message: "Please enter the manager role title.",
+                            message: "Please enter the role title.",
                             validate: answer => {
                                 if (answer === "") {
                                     return "Title cannot be blank.";

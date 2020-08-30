@@ -118,10 +118,10 @@ function startDB() {
                     break;
                 /////////////////////
                 case "Update Employee Roles":
-                    dbmethod.updEmpRoles();
+                    update.updEmpRoles();
                     break;
                 case "Update Employee Managers":
-                    dbmethod.updEmpMang(); //bonus
+                    update.updEmpMang(); //bonus
                     break;
                 /////////////////////
                 case "Delete Department":
