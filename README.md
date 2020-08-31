@@ -22,7 +22,7 @@ npm install
 
 ## Usage
 
-See video of usage on Youtube: [HW 12 - Employee Application]( )
+See video of usage on Youtube: [HW 12 - Employee Application](https://youtu.be/5qqmTVAa7sI)
 
 ---
 
