@@ -20,7 +20,7 @@ class DBadd {
         ).then((entered) => {
             database.query('INSERT INTO department SET ?', { name: entered.department }, (err, res) => {
                 if (err) throw (err);
-                console.log(res);
+                console.table(res);
             })
         })
     };
@@ -104,7 +104,7 @@ class DBadd {
                                             },
                                             (err, res) => {
                                                 if (err) throw err;
-                                                console.log(res);
+                                                console.table(res);
                                             })
                                     })
                                 })
@@ -163,7 +163,7 @@ class DBadd {
                                         },
                                         (err, res) => {
                                             if (err) throw err;
-                                            console.log(res);
+                                            console.table(res);
                                         })
                                 })
                             })

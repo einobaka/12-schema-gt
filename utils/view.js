@@ -6,20 +6,21 @@ class DBview {
     dept() {
         database.query(`SELECT * FROM department`, (err, res) => {
             if (err) throw err;
-            console.log(res);
+            console.table(res);
         })
     };
 
     role() {
         database.query(`SELECT * FROM role`, (err, res) => {
             if (err) throw err;
-            console.log(res);
+            console.table(res);
         })
     };
     employee() {
         database.query(`SELECT employee.first_name, employee.last_name, role.title, role.salary,department.name FROM employee, role, department WHERE employee.role_id=role.id AND role.department_id=department.id`, (err, res) => {
             if (err) throw err;
-            console.log(res);
+            console.table(res);
+
         })
     }
     empByManager() {
@@ -46,7 +47,7 @@ class DBview {
                         // console.log(res[0].id)
                         database.query(`SELECT employee.first_name, employee.last_name, employee.manager_id FROM employee WHERE employee.manager_id='${res[0].id}'`, (err, res) => {
                             if (err) throw err;
-                            console.log(res);
+                            console.table(res);
                         })
                     });
             });

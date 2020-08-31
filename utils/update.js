@@ -24,7 +24,7 @@ class DBupdate {
 
             database.query(`UPDATE employee SET role_id='${splitRol[0]}' WHERE id=${splitEmp[0]}`, (err, res) => {
                 if (err) throw (err);
-                console.log(res.affectedRows);
+                console.table(res.affectedRows);
             })
         });
     }
@@ -50,7 +50,7 @@ class DBupdate {
 
             database.query(`UPDATE employee SET manager_id='${splitRol[0]}' WHERE id=${splitEmp[0]}`, (err, res) => {
                 if (err) throw (err);
-                console.log(res.affectedRows);
+                console.table(res.affectedRows);
             })
         })
     }

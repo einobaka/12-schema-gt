@@ -3,14 +3,14 @@ const database = require('../db/db');
 
 class DBremove {
 
-    delDept(deparments) {
+    delDept(departments) {
         // console.log(deparments)
         inquirer.prompt(
             [{
                 type: "list",
                 name: "department",
-                message: "Please select deparment which to remove.",
-                choices: deparments
+                message: "Please select deparment which to remove. WARNING: THIS WILL REMOVE ROLES AND EMPLOYEES TIED TO THIS DEPARMENT.",
+                choices: departments
             },
             ]
         ).then((selection) => {
@@ -28,7 +28,7 @@ class DBremove {
                     // console.log(finalChoice[1])
                     database.query(`DELETE FROM department WHERE name='${finalChoice[1]}'`, (err, res) => {
                         if (err) throw (err);
-                        console.log(res)
+                        console.table(res.affectedRows)
                     })
                 }
             })
@@ -40,7 +40,7 @@ class DBremove {
             [{
                 type: "list",
                 name: "roles",
-                message: "Please select deparment which to remove.",
+                message: "Please select role which to remove. WARNING: THIS WILL REMOVE EMPLOYEES TIED TO THIS ROLE.",
                 choices: roles
             },
             ]
@@ -59,7 +59,7 @@ class DBremove {
                     // console.log(finalChoice[1])
                     database.query(`DELETE FROM role WHERE title='${finalChoice[1]}'`, (err, res) => {
                         if (err) throw (err);
-                        console.log(res)
+                        console.table(res.affectedRows)
                     })
                 }
             })
@@ -90,7 +90,7 @@ class DBremove {
                     // console.log(finalChoice)
                     database.query(`DELETE FROM employee WHERE first_name='${finalChoice[1]}' AND last_name='${finalChoice[2]}'`, (err, res) => {
                         if (err) throw (err);
-                        console.log(res)
+                        console.table(res.affectedRows)
                     })
                 }
             })
