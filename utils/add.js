@@ -163,7 +163,7 @@ class DBadd {
                                         },
                                         (err, res) => {
                                             if (err) throw err;
-                                            console.log("New employee added.")
+                                            console.log("New role added.")
                                         })
                                 })
                             })
@@ -237,8 +237,7 @@ class DBadd {
                                 },
                                 (err, res) => {
                                     if (err) throw (err);
-                                    console.table(res);
-                                    // return startDB();
+                                    console.log("New employee added.")
                                 });
                         }
                         else {
@@ -251,8 +250,7 @@ class DBadd {
                                 },
                                 (err, res) => {
                                     if (err) throw (err);
-                                    console.table(res);
-                                    // return startDB();
+                                    console.log("New employee added.")
                                 });
                         };
                     });
