@@ -28,8 +28,8 @@ function startDB() {
                 "==================", //
                 "View Department",
                 "View Role",
-                "View Employee",
-                "View Employee by Manager", //bonus
+                "View Employees",
+                "View Employees by Manager", //bonus
                 "==================", //
                 "Update Employee Roles",
                 "Update Employee Managers", // bonus
@@ -110,10 +110,10 @@ function startDB() {
                 case "View Role":
                     view.role();
                     break;
-                case "View Employee":
+                case "View Employees":
                     view.employee();
                     break;
-                case "View Employee by Manager":
+                case "View Employees by Manager":
                     view.empByManager(); //bonus
                     break;
                 /////////////////////
@@ -184,7 +184,8 @@ function startDB() {
                 /////////////////////
                 case "Delete Department":
 
-                    database.query(`SELECT * FROM department WHERE NOT id=1`, (err, res) => {
+                    database.query(`SELECT * FROM department WHERE NOT id=1
+                    `, (err, res) => {
                         if (err) throw (err);
                         let deparments = [];
                         res.forEach(selected => {
