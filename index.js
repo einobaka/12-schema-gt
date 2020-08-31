@@ -96,10 +96,10 @@ function startDB() {
                             let deptName = `${department.name}`
                             dept.push(deptName);
                         })
-                        return company.dept = dept, intoView()
+                        return company.dept = dept, intoEmp()
                     });
 
-                    function intoView() {
+                    function intoEmp() {
                         add.employee(company)
                     }
                     break;
@@ -143,10 +143,10 @@ function startDB() {
                             let title = `${selected.id} >> ${selected.title}`
                             titles.push(title);
                         })
-                        return currEmpl.newRole = titles, intoView();
+                        return currEmpl.newRole = titles, intoUpd();
                     })
 
-                    function intoView() {
+                    function intoUpd() {
                         update.updEmpRoles(currEmpl);
                     }
                     break;
@@ -175,9 +175,9 @@ function startDB() {
                             let manager = `${selected.id} >>  ${selected.first_name} ${selected.last_name}`
                             manList.push(manager);
                         })
-                        return newMan.manager = manList, intoView();
+                        return newMan.manager = manList, intoUpdMan();
                     })
-                    function intoView() {
+                    function intoUpdMan() {
                         update.updEmpMang(newMan);
                     }
                     break;
