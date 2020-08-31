@@ -4,7 +4,6 @@ const add = require('./utils/add');
 const view = require('./utils/view');
 const update = require('./utils/update');
 const remove = require('./utils/delete');
-// const addEmp = require('./utils/dbcontrol');
 
 database.connect(function (err) {
     if (err) throw err;
@@ -38,6 +37,7 @@ function startDB() {
                 "Delete Department", // bonus
                 "Delete Role", // bonus
                 "Delete Employee", // bonus
+                "==================", //
             ]
         },
     ).then((user) => {
@@ -118,22 +118,107 @@ function startDB() {
                     break;
                 /////////////////////
                 case "Update Employee Roles":
-                    update.updEmpRoles();
+                    const currEmpl = {
+                        names: [],
+                        newRole: [],
+                    }
+                    database.query(`SELECT employee.id, employee.first_name, employee.last_name, role.title FROM employee, role, department WHERE employee.role_id=role.id AND role.department_id=department.id;`, (err, res) => {
+                        if (err) throw (err);
+                        // console.log(res);
+                        let empList = [];
+                        res.forEach(employee => {
+                            // console.log(employee.first_name, employee.last_name, employee.title)
+                            let empInfo = `${employee.id} >> ${employee.first_name} ${employee.last_name} << ${employee.title}`
+                            // console.log(empInfo)
+                            empList.push(empInfo);
+                        })
+                        return currEmpl.names = empList;
+                    })
+
+                    database.query(`SELECT title, id FROM role`, (err, res) => {
+                        if (err) throw (err);
+                        // console.log(res);
+                        let titles = [];
+                        res.forEach(selected => {
+                            let title = `${selected.id} >> ${selected.title}`
+                            titles.push(title);
+                        })
+                        return currEmpl.newRole = titles, intoView();
+                    })
+
+                    function intoView() {
+                        update.updEmpRoles(currEmpl);
+                    }
                     break;
                 case "Update Employee Managers":
-                    update.updEmpMang(); //bonus
+                    const newMan = {
+                        names: [],
+                        manager: [],
+                    }
+                    database.query(`SELECT * FROM employee WHERE role_id < 200`, (err, res) => {
+                        if (err) throw (err);
+                        // console.log(res);
+                        let empList = [];
+                        res.forEach(employee => {
+                            // console.log(employee.first_name, employee.last_name, employee.title)
+                            let empInfo = `${employee.id} >> ${employee.first_name} ${employee.last_name}`
+                            // console.log(empInfo)
+                            empList.push(empInfo);
+                        })
+                        return newMan.names = empList;
+                    })
+                    database.query(`SELECT * FROM employee WHERE role_id >= 200`, (err, res) => {
+                        if (err) throw (err);
+                        // console.log(res);
+                        let manList = [];
+                        res.forEach(selected => {
+                            let manager = `${selected.id} >>  ${selected.first_name} ${selected.last_name}`
+                            manList.push(manager);
+                        })
+                        return newMan.manager = manList, intoView();
+                    })
+                    function intoView() {
+                        update.updEmpMang(newMan);
+                    }
                     break;
                 /////////////////////
                 case "Delete Department":
-                    dbmethod.delDept(); //bonus
+
+                    database.query(`SELECT * FROM department WHERE NOT id=1`, (err, res) => {
+                        if (err) throw (err);
+                        let deparments = [];
+                        res.forEach(selected => {
+                            let name = `${selected.name}`
+                            deparments.push(name);
+                        })
+                        remove.delDept(deparments);
+                    })
                     break;
                 case "Delete Role":
-                    dbmethod.delRole(); //bonus
+
+                    database.query(`SELECT * FROM role WHERE NOT id=200`, (err, res) => {
+                        if (err) throw (err);
+                        let roles = [];
+                        res.forEach(selected => {
+                            let title = `${selected.title}`
+                            roles.push(title);
+                        })
+                        remove.delRole(roles);
+                    })
                     break;
+
                 case "Delete Employee":
-                    dbmethod.delEmp(); //bonus
+
+                    database.query(`SELECT * FROM employee WHERE NOT id=1`, (err, res) => {
+                        if (err) throw (err);
+                        let employees = [];
+                        res.forEach(selected => {
+                            let employee = `${selected.first_name} ${selected.last_name}`
+                            employees.push(employee);
+                        })
+                        remove.delEmp(employees);
+                    })
                     break;
             }
-
     })
 };

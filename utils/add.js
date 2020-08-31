@@ -152,7 +152,7 @@ class DBadd {
                         }])
                             .then((newRole) => {
                                 // console.log(choice)
-                                database.query(`SELECT id FROM department WHERE  name = '${newRole.department}'`, (err, res) => {
+                                database.query(`SELECT id FROM department WHERE name = '${newRole.department}'`, (err, res) => {
                                     // console.log(res[0].id)
                                     // return role.department_ID = res[0].id
                                     database.query(`INSERT INTO role SET ?`,

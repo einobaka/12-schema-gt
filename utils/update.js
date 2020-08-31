@@ -3,26 +3,57 @@ const database = require('../db/db');
 
 class DBupdate {
 
-    updEmpRoles(){
-        database.query(`SELECT * FROM department WHERE  name = '${newRole.department}'`, (err, res) => {
-            // console.log(res[0].id)
-            // return role.department_ID = res[0].id
-            database.query(`INSERT INTO role SET ?`,
-                {
-                    title: newRole.title,
-                    salary: newRole.salary,
-                    department_ID: res[0].id
-                },
-                (err, res) => {
-                    if (err) throw err;
-                    console.log(res);
-                })
+    updEmpRoles(currEmpl) {
+        inquirer.prompt([
+            {
+                type: "list",
+                name: "employees",
+                message: "Please select the employee which you'd like to update.",
+                choices: currEmpl.names
+            },
+            {
+                type: "list",
+                name: "title",
+                message: "Please select new role for the employee.",
+                choices: currEmpl.newRole
+            }
+        ]).then((selection) => {
+
+            let splitEmp = selection.employees.split(' ');
+            let splitRol = selection.title.split(' ');
+
+            database.query(`UPDATE employee SET role_id='${splitRol[0]}' WHERE id=${splitEmp[0]}`, (err, res) => {
+                if (err) throw (err);
+                console.log(res.affectedRows);
+            })
+        });
+    }
+    updEmpMang(currEmpl) {
+        // console.log(currEmpl);
+        inquirer.prompt([
+            {
+                type: "list",
+                name: "employees",
+                message: "Please select the employee which you'd like to update.",
+                choices: currEmpl.names
+            },
+            {
+                type: "list",
+                name: "title",
+                message: "Please select new manager for the employee.",
+                choices: currEmpl.manager
+            }
+        ]).then((selection) => {
+            // console.log(selection);
+            let splitEmp = selection.employees.split(' ');
+            let splitRol = selection.title.split(' ');
+
+            database.query(`UPDATE employee SET manager_id='${splitRol[0]}' WHERE id=${splitEmp[0]}`, (err, res) => {
+                if (err) throw (err);
+                console.log(res.affectedRows);
+            })
         })
     }
-
-    
-
-    // updEmpMang(); //bonus
-
 }
 
+module.exports = new DBupdate;
