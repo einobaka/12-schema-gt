@@ -34,7 +34,7 @@ class DBupdate {
             {
                 type: "list",
                 name: "employees",
-                message: "Please select the employee which you'd like to update.",
+                message: "Please select the employee which you'd like to update their manager.",
                 choices: currEmpl.names
             },
             {

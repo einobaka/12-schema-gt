@@ -20,7 +20,7 @@ class DBadd {
         ).then((entered) => {
             database.query('INSERT INTO department SET ?', { name: entered.department }, (err, res) => {
                 if (err) throw (err);
-                console.table(res);
+                console.("New department added.")
             })
         })
     };
@@ -104,7 +104,7 @@ class DBadd {
                                             },
                                             (err, res) => {
                                                 if (err) throw err;
-                                                console.table(res);
+                                                console.log("New role added.")
                                             })
                                     })
                                 })
@@ -163,7 +163,7 @@ class DBadd {
                                         },
                                         (err, res) => {
                                             if (err) throw err;
-                                            console.table(res);
+                                            console.log("New employee added.")
                                         })
                                 })
                             })
@@ -237,7 +237,7 @@ class DBadd {
                                 },
                                 (err, res) => {
                                     if (err) throw (err);
-                                    console.log(res);
+                                    console.table(res);
                                     // return startDB();
                                 });
                         }
@@ -251,7 +251,7 @@ class DBadd {
                                 },
                                 (err, res) => {
                                     if (err) throw (err);
-                                    console.log(res);
+                                    console.table(res);
                                     // return startDB();
                                 });
                         };

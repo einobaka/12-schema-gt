@@ -28,7 +28,7 @@ class DBremove {
                     // console.log(finalChoice[1])
                     database.query(`DELETE FROM department WHERE name='${finalChoice[1]}'`, (err, res) => {
                         if (err) throw (err);
-                        console.table(res.affectedRows)
+                        console.log("Department deleted.")
                     })
                 }
             })
@@ -59,7 +59,7 @@ class DBremove {
                     // console.log(finalChoice[1])
                     database.query(`DELETE FROM role WHERE title='${finalChoice[1]}'`, (err, res) => {
                         if (err) throw (err);
-                        console.table(res.affectedRows)
+                        console.log("Role deleted.")
                     })
                 }
             })
@@ -90,7 +90,7 @@ class DBremove {
                     // console.log(finalChoice)
                     database.query(`DELETE FROM employee WHERE first_name='${finalChoice[1]}' AND last_name='${finalChoice[2]}'`, (err, res) => {
                         if (err) throw (err);
-                        console.table(res.affectedRows)
+                        console.log("Employee deleted.")
                     })
                 }
             })

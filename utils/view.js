@@ -41,8 +41,9 @@ class DBview {
                 }]
             ).then((choice) => {
                 // console.log(choice)
+                let manager = choice.managers.split(' ');
                 database.query(
-                    `SELECT id FROM employee WHERE first_name= '${manager[0]}' AND last_name= '${manager[1]}'`, (err, res) => {
+                    `SELECT id FROM employee WHERE first_name='${manager[0]}' AND last_name='${manager[1]}'`, (err, res) => {
                         if (err) throw (err);
                         // console.log(res[0].id)
                         database.query(`SELECT employee.first_name, employee.last_name, employee.manager_id FROM employee WHERE employee.manager_id='${res[0].id}'`, (err, res) => {
